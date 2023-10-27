@@ -2,6 +2,7 @@ package com.anzi.rpc.spring;
 
 import com.anzi.rpc.annotation.RpcReference;
 import com.anzi.rpc.netty.client.NettyClient;
+import com.anzi.rpc.registry.NacosServiceDiscovery;
 import com.anzi.rpc.util.PropertiesUtils;
 import com.anzi.rpc.netty.client.NettyClientProxy;
 import org.slf4j.Logger;
@@ -59,11 +60,12 @@ public class ConsumerProcessor implements BeanPostProcessor, EnvironmentAware {
         for (Field field : fields) {
             if(field.isAnnotationPresent(RpcReference.class)){
                 final RpcReference rpcReference = field.getAnnotation(RpcReference.class);
-                String serviceVersion = rpcReference.serviceVersion(); // 需要的版本
+                // 需要的服务版本
+                String serviceVersion = rpcReference.serviceVersion();
+                // 获得代理对象
                 NettyClientProxy nettyClientProxy = new NettyClientProxy(NettyClient.getInstance(), serviceVersion);
                 final Class<?> aClass = field.getType();
                 field.setAccessible(true);
-                // 获得对应接口的代理对象
                 Object object = nettyClientProxy.getProxy(aClass);
                 try {
                     // 将代理对象设置给字段，注入代理对象
@@ -73,6 +75,8 @@ public class ConsumerProcessor implements BeanPostProcessor, EnvironmentAware {
                     e.printStackTrace();
                     logger.info("注入代理对象出错");
                 }
+                // 去订阅对应的服务
+                NacosServiceDiscovery.getInstance().subscribeService(field.getType().getTypeName() + serviceVersion);
             }
         }
         return bean;

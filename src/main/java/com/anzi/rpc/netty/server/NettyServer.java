@@ -32,6 +32,8 @@ public class NettyServer {
 
     private int port;
 
+    private String ip;
+
     private ServiceRegistry serviceRegistry;
 
     private ServiceRegistryLocal serviceRegistryLocal;
@@ -40,7 +42,8 @@ public class NettyServer {
 
 
 
-    public NettyServer(int port, String serializerType) {
+    public NettyServer(String ip, int port, String serializerType) {
+        this.ip = ip;
         this.port = port;
         serviceRegistry = new NacosServiceRegistry();
         serviceRegistryLocal = new ServiceRegistryLocalImpl();
@@ -70,7 +73,7 @@ public class NettyServer {
                                     .addLast(new NettyServerHandler());
                         }
                     });
-            ChannelFuture channelFuture = serverBootstrap.bind("localhost", port).sync(); // 线程阻塞直到启动完成
+            ChannelFuture channelFuture = serverBootstrap.bind(ip, port).sync(); // 线程阻塞直到启动完成
             logger.info("Netty server started on port {}", port);
             channelFuture.channel().closeFuture().sync(); // 当前线程阻塞，直到服务关闭
             logger.info("Netty server stop");

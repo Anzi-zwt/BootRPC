@@ -21,6 +21,7 @@ public class ShutdownHook {
         // 添加一个jvm即将关闭时会调用启动的线程
         Runtime.getRuntime().addShutdownHook(new Thread(() -> { // lambda表达式实现Runnable接口，表示钩子线程启动之后需要做什么
             NacosService.getInstance().clearRegistry();
+            logger.info("成功注销所有服务");
         }));
     }
 

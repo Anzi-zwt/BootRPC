@@ -50,15 +50,14 @@ public class NettyClient {
     public static NettyClient getInstance(){
         if(nettyClient == null){
             nettyClient = new NettyClient(
-                    CommonSerializer.getByType(RpcConfig.getInstance().getSerializerType()),
-                    LoadBalancer.getByType(RpcConfig.getInstance().getLoadBalanceType()));
+                    CommonSerializer.getByType(RpcConfig.getInstance().getSerializerType()));
         }
         return nettyClient;
     }
 
 
-    public NettyClient(CommonSerializer serializer, LoadBalancer loadBalancer) {
-        this.serviceDiscovery = new NacosServiceDiscovery(loadBalancer);
+    private NettyClient(CommonSerializer serializer) {
+        this.serviceDiscovery = NacosServiceDiscovery.getInstance();
         this.serializer = serializer;
         this.unprocessedRequests = SingletonFactory.getInstance(UnprocessedRequests.class);
     }

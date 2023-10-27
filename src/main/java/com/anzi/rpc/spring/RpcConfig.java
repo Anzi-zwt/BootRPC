@@ -27,6 +27,9 @@ public class RpcConfig {
     @PropertiesField
     private Integer serverPort = 20880; // 默认服务开启端口
 
+    @PropertiesField
+    private String serverIp = "localhost"; // 服务默认在本地启动，只有本机回环可以访问
+
     static RpcConfig rpcProperties;
 
     private boolean isInit = false;

@@ -43,22 +43,16 @@ public class NacosService {
         return nacosService;
     }
 
-    // TODO 确定服务发布时ip应该写什么
     public void registerService(String serviceName) throws NacosException {
-        namingService.registerInstance(serviceName, "localhost", RpcConfig.getInstance().getServerPort());
+        namingService.registerInstance(serviceName, RpcConfig.getInstance().getServerIp(), RpcConfig.getInstance().getServerPort());
         serviceNames.add(serviceName);
 
     }
 
-    public List<Instance> getAllInstance(String serviceName) throws NacosException {
-        return namingService.getAllInstances(serviceName);
-    }
 
-
-    // TODO 确定服务注销时ip应该写什么
     public void clearRegistry() {
         if(!serviceNames.isEmpty()) {
-            String host = "localhost";
+            String host = RpcConfig.getInstance().getServerIp();
             int port = RpcConfig.getInstance().getServerPort();
             Iterator<String> iterator = serviceNames.iterator();
             while(iterator.hasNext()) {

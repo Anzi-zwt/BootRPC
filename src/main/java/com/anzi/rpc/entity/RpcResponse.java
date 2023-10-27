@@ -34,7 +34,7 @@ public class RpcResponse<T> implements Serializable {
 
     public static <T> RpcResponse<T> success(T data, String requestId) {
         RpcResponse<T> response = new RpcResponse<>();
-        response.setRequestId(requestId);
+        response.setRequestId(requestId); // 对应一个请求的回复
         response.setStatusCode(ResponseCode.SUCCESS.getCode());
         response.setData(data);
         return response;

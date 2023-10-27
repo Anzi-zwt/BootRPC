@@ -23,9 +23,9 @@ public class UnprocessedRequests {
     }
 
     public void complete(RpcResponse rpcResponse) {
-        CompletableFuture<RpcResponse> future = unprocessedResponseFutures.remove(rpcResponse.getRequestId());
+        CompletableFuture<RpcResponse> future = unprocessedResponseFutures.remove(rpcResponse.getRequestId()); // 对面回复消息之后，就发future对象取出来
         if (null != future) {
-            future.complete(rpcResponse);
+            future.complete(rpcResponse); // 在future对象中set。对应的阻塞get线程就会获取到信息
         } else {
             throw new IllegalStateException();
         }

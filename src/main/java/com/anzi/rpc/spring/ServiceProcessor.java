@@ -41,7 +41,7 @@ public class ServiceProcessor implements EnvironmentAware, BeanPostProcessor, In
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        NettyServer nettyServer = new NettyServer(RpcConfig.getInstance().getServerPort(), RpcConfig.getInstance().getSerializerType());
+        NettyServer nettyServer = new NettyServer(RpcConfig.getInstance().getServerIp(), RpcConfig.getInstance().getServerPort(), RpcConfig.getInstance().getSerializerType());
         this.nettyServer = nettyServer;
         // 新建一个线程去启动，这个线程会阻塞，最后负责处理关闭服务线程
         Thread thread = new Thread(() -> {
