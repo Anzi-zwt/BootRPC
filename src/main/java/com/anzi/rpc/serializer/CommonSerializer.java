@@ -1,10 +1,13 @@
 package com.anzi.rpc.serializer;
 
+import com.anzi.rpc.spi.SPI;
+
 /**
  * 通用的序列化反序列化接口
  *
  * @author anzi
  */
+@SPI
 public interface CommonSerializer {
 
     Integer KRYO_SERIALIZER = 0;

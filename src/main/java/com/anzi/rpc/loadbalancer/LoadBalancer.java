@@ -1,12 +1,14 @@
 package com.anzi.rpc.loadbalancer;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
+import com.anzi.rpc.spi.SPI;
 
 import java.util.List;
 
 /**
  * @author anzi
  */
+@SPI
 public interface LoadBalancer {
 
     static LoadBalancer getByType(String loadBalanceType){

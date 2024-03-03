@@ -22,7 +22,7 @@ public class RpcConfig {
     private String serializerType = "Kryo"; // 序列化方式
 
     @PropertiesField
-    private String loadBalanceType = "random";
+    private String loadBalanceType = "random"; // 负载均衡方式
 
     @PropertiesField
     private Integer serverPort = 20880; // 默认服务开启端口
